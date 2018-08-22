@@ -28,11 +28,31 @@ protocol DKImageGroupDataManagerObserver {
 public class DKImageGroupDataManagerConfiguration: NSObject, NSCopying {
     
     /// The types of PHAssetCollection to display in the picker.
-    public var assetGroupTypes: [PHAssetCollectionSubtype] = [
-        .smartAlbumUserLibrary,
-        .smartAlbumFavorites,
-        .albumRegular
-    ]
+    public lazy var assetGroupTypes: [PHAssetCollectionSubtype] = {
+        var types: [PHAssetCollectionSubtype] = [.smartAlbumUserLibrary, .smartAlbumFavorites]
+
+        if #available(iOS 9.0, *) {
+            types.append(.smartAlbumSelfPortraits)
+            types.append(.smartAlbumScreenshots)
+        }
+        
+        if #available(iOS 10.2, *) {
+            types.append(.smartAlbumDepthEffect)
+        }
+        
+        if #available(iOS 10.3, *) {
+            types.append(.smartAlbumLivePhotos)
+        }
+        
+        if #available(iOS 11.0, *) {
+            types.append(.smartAlbumAnimated)
+            types.append(.smartAlbumLongExposures)
+        }
+        
+        types.append(.albumRegular)
+        
+        return types
+    }()
     
     /// Options that specify a filter predicate and sort order for the fetched assets, or nil to use default options.
     @objc public var assetFetchOptions: PHFetchOptions?
