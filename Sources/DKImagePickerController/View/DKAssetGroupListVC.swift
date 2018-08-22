@@ -213,6 +213,7 @@ class DKAssetGroupListVC: UITableViewController, DKImageGroupDataManagerObserver
         var displayGroups = self.groups ?? []
         if !self.showsEmptyAlbums {
             if let groups = self.groups {
+                displayGroups.removeAll()
                 for groupId in groups {
                     if self.groupDataManager.fetchGroupWithGroupId(groupId).totalCount > 0 {
                         displayGroups.append(groupId)
